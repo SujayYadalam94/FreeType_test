@@ -1,0 +1,17 @@
+This is a note to self.
+
+For static linking,
+1. Create the static libary or .a (here, it is libfreetype.a)
+2. While compiling, use -L to point to the location of the library and -l to link to provide the library name. 
+    gcc freetype_test.c -L. -lfreetype -I/usr/local/include/freetype2 -lm -lz -lbz2 -o static_test.o
+    
+For dynamic linking, nothing special.
+    gcc freetype_test.c -I/usr/local/include/freetype2 -lfreetype -lm -o dynamic_test.o
+    
+In order to use Hugepages,
+1) While compiling, add -B <path to custom linker> and -Wl,--hugetlbfs-align
+2) When executing the application, set 
+	a) LD_LIBRARY_PATH to the .so folder (/home/sujay/Documents/libhugetlbfs/obj64)
+	b) HUGETLB_MORECORE=yes if you want to replace the malloc call to map to hugepages
+	c) HUGETLB_ELFMAP=R if you want to map text section to hugepages
+Note: When mounting the libhugetlbfs, you will need sudo permission. Therefore while executing you will have to add sudo else, you will receive an error "Unable to allocate hugepages". You can use chown to change the fs owner to get around this issue.

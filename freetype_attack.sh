@@ -10,7 +10,13 @@ while [ $i -lt $stringlen ]
 do
 	sudo dmesg -c
 	clear
-	./freetype_test.o ${string:$i:$((1))}
+#	./static_test.o ${string:$i:$((1))}
+	if [ "$1" = "huge" ]
+	then
+		HUGETLB_ELFMAP=R ./static_huge_test.o ${string:$i:$((1))}
+	else
+		./static_test.o ${string:$i:$((1))}
+	fi
 	#cat /proc/pgfault_file > /home/sujay/Desktop/fault\ sequences/$char.txt
 #	dmesg > $path/$char.txt
 	dmesg > $path/output.txt
